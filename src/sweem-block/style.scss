@@ -1,6 +1,38 @@
 @use "./theme-colors";
 @use "./theme-typography";
 
+.wp-block-create-block-sweem-block.sweem-team-block {
+	.sweem-team-title {
+		color: var(--sweem-title-color, var(--sweem-theme-heading-color));
+	}
+
+	.sweem-team-subtitle {
+		color: var(--sweem-subtitle-color, var(--sweem-theme-text-color));
+	}
+
+	.sweem-inner-box,
+	.sweem-inner-block,
+	.sweem-team-content {
+		background-color: var(--sweem-card-bg, transparent);
+	}
+
+	.sweem-content-box,
+	.sweem-info-box,
+	.sweem-content .sweem-inner {
+		background-color: var(--sweem-content-bg, transparent);
+	}
+
+	.sweem-image,
+	.sweem-image img {
+		border-radius: var(--sweem-image-radius, inherit);
+	}
+
+	.sweem-social-links a {
+		background-color: var(--sweem-social-bg, unset);
+		color: var(--sweem-social-icon-color, inherit);
+	}
+}
+
 .wp-block-create-block-sweem-block.sweem-team-block.sweem-current-theme1 {
 	.sweem-inner-box {
 		position: relative;

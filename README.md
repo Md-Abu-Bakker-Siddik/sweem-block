@@ -1,121 +1,130 @@
-# Sweem Team Block (WordPress Gutenberg Plugin)
+# Sweem Team Block
 
-A custom WordPress Gutenberg block plugin for creating team member cards with multiple visual skins, social profile links, and style customization options.
+`Sweem Team Block` is a custom WordPress Gutenberg block plugin for presenting team members with multiple visual skins, social profile links, and per-skin style customization.
 
-This project is built with `@wordpress/scripts` and follows the modern block development workflow (`src` -> `build`).
+The block is registered as `create-block/sweem-block` and rendered dynamically with PHP.
 
-## Features
+## Key Features
 
-- 9 visual skin styles for team member presentation
-- Team profile fields (name, designation, image, alt text)
-- Social links (Facebook, X/Twitter, LinkedIn, Instagram)
-- Style controls for colors, typography, spacing, and icon size
-- Dynamic block rendering through PHP (`render.php`)
-- Font Awesome support for social media icons
+- 4 built-in layout skins (`style1`, `style2`, `style3`, `style4`)
+- Team member content fields:
+  - Name
+  - Designation
+  - Profile image + alt text
+  - Social links (Facebook, X/Twitter, LinkedIn, Instagram)
+- Per-skin style control support via `styleSettings` object
+  - Title color
+  - Subtitle color
+  - Card background
+  - Content background
+  - Social background
+  - Social icon color
+  - Image radius
+- Dynamic server-side rendering (`render.php`)
+- Font Awesome icons loaded for editor + frontend
 
 ## Tech Stack
 
-- WordPress Gutenberg (Block API v3)
-- JavaScript (React-based block editor components)
-- PHP (server-side render integration)
+- WordPress Block API v3
+- JavaScript (Gutenberg block editor APIs)
+- PHP (dynamic render callback template)
 - SCSS/CSS
-- Node.js + npm
 - `@wordpress/scripts`
 
 ## Requirements
 
-- WordPress `6.8+`
-- PHP `7.4+`
-- Node.js `18+` (recommended)
-- npm `9+` (recommended)
+- WordPress 6.8+
+- PHP 7.4+
+- Node.js 18+ (recommended for development)
+- npm 9+ (recommended for development)
 
-## Installation (Local Development)
+## Installation
 
-1. Clone this repository:
+1. Place this plugin in your WordPress plugins directory:
+   - `wp-content/plugins/sweem-block`
+2. Activate **Sweem Block** from WordPress Admin -> Plugins.
+3. Open the block editor and insert **Sweem Team Block**.
 
-   ```bash
-   git clone <your-repo-url>
-   cd sweem-block
-   ```
+## Local Development
 
-2. Install dependencies:
+Install dependencies:
 
-   ```bash
-   npm install
-   ```
+```bash
+npm install
+```
 
-3. Build assets for production:
+Run watch/development build:
 
-   ```bash
-   npm run build
-   ```
+```bash
+npm run start
+```
 
-4. For active development (watch mode):
+Create production build:
 
-   ```bash
-   npm run start
-   ```
+```bash
+npm run build
+```
 
-5. Copy/link this plugin folder into your WordPress `wp-content/plugins/` directory and activate **Sweem Block** from the WordPress admin dashboard.
+Create distributable zip:
 
-## Available Scripts
-
-- `npm run start` - Starts development build with file watching
-- `npm run build` - Creates production-ready assets in `build/`
-- `npm run format` - Formats project files
-- `npm run lint:js` - Lints JavaScript files
-- `npm run lint:css` - Lints style files
-- `npm run plugin-zip` - Generates installable plugin zip
+```bash
+npm run plugin-zip
+```
 
 ## Project Structure
 
 ```text
 sweem-block/
-|-- src/
-|   `-- sweem-block/
-|       |-- block.json
-|       |-- edit.js
-|       |-- index.js
-|       |-- render.php
-|       |-- view.js
-|       |-- editor.scss
-|       `-- style.scss
-|-- build/
-|   `-- sweem-block/    # Compiled assets
-|-- sweem-block.php     # Plugin bootstrap file
-|-- package.json
-`-- README.md
+|- sweem-block.php                  # Plugin bootstrap and block registration
+|- package.json
+|- src/
+|  |- sweem-block/
+|  |  |- block.json                 # Block metadata and attributes
+|  |  |- index.js                   # registerBlockType entry
+|  |  |- edit.js                    # Editor UI and controls
+|  |  |- render.php                 # Dynamic frontend markup
+|  |  |- view.js                    # Frontend interaction logic
+|  |  |- editor.scss
+|  |  |- style.scss
+|  |  |- _theme-colors.scss
+|  |  |- _theme-typography.scss
+|- build/                           # Compiled assets
+|  |- sweem-block/
+|  |- blocks-manifest.php
+|- readme.txt
 ```
 
-## How It Works
+## Block Behavior Notes
 
-- Block metadata and attributes are defined in `src/sweem-block/block.json`.
-- Editor UI and controls are managed in `src/sweem-block/edit.js`.
-- Dynamic frontend markup is rendered through `src/sweem-block/render.php`.
-- The plugin bootstrap (`sweem-block.php`) registers block metadata from compiled assets and enqueues Font Awesome for icon rendering.
+- Skin selection is controlled by `skinStyle`.
+- Style customization is stored per skin inside `styleSettings[skinStyle]`.
+- If a style value is invalid, render sanitization prevents unsafe CSS injection.
+- Social links are normalized in PHP (adds `https://` when needed).
+- Image URLs are normalized and escaped before output.
 
-## Hiring Manager Notes
+## Security & Output Handling
 
-This project demonstrates:
+In `render.php`, the plugin applies output safety practices:
 
-- Practical Gutenberg block architecture
-- Dynamic rendering with PHP + editor-side controls
-- Asset pipeline usage with WordPress tooling
-- Real-world, reusable component design for team showcase sections
+- `esc_url()` for URLs
+- `esc_attr()` for attributes
+- `esc_html()` for text output
+- CSS variable values are sanitized before inline output
 
-If you are evaluating this repository, please review:
+## Hiring Manager / Reviewer Guide
 
-- `src/sweem-block/block.json` for schema and block capabilities
-- `src/sweem-block/edit.js` for editing experience and controls
-- `src/sweem-block/render.php` for server-side rendering logic
-- `sweem-block.php` for plugin registration and runtime hooks
+If you are reviewing this project, start with these files:
 
-## Future Improvements
+1. `src/sweem-block/block.json` - data contract (attributes, assets, supports)
+2. `src/sweem-block/edit.js` - editor UX, inspector controls, skin-aware style settings
+3. `src/sweem-block/render.php` - server-side rendering and sanitization
+4. `src/sweem-block/style.scss` - visual implementation of all skins
+5. `sweem-block.php` - plugin bootstrap and registration flow
 
-- Add block unit/integration tests
-- Add image fallback and validation for broken media links
-- Add i18n-ready UI labels throughout editor controls
-- Add accessibility checks for social links and icon semantics
+## Known Scope
+
+- The plugin currently provides one block focused on team card presentation.
+- Typography controls exist in attributes but only fields connected in the current editor UI are exposed in inspector panels.
 
 ## License
 

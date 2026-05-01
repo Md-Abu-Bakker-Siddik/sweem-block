@@ -54,6 +54,12 @@ return array(
 				'type' => 'string',
 				'default' => 'style1'
 			),
+			'styleSettings' => array(
+				'type' => 'object',
+				'default' => array(
+					
+				)
+			),
 			'titleColor' => array(
 				'type' => 'string',
 				'default' => ''

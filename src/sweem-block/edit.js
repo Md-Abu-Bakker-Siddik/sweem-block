@@ -32,6 +32,7 @@ export default function Edit({ attributes, setAttributes }) {
 		linkedinUrl,
 		instagramUrl,
 		skinStyle,
+		styleSettings = {},
 	} = attributes;
 
 	const socialItems = socialNetworks
@@ -42,6 +43,26 @@ export default function Edit({ attributes, setAttributes }) {
 		.filter((item) => item.value);
 
 	const skinClass = `sweem-team-block sweem-current-theme${ skinStyle.replace('style', '') } sweem-team-item`;
+	const currentStyleSettings = styleSettings?.[skinStyle] || {};
+	const updateStyleSetting = (key, value) =>
+		setAttributes({
+			styleSettings: {
+				...styleSettings,
+				[skinStyle]: {
+					...currentStyleSettings,
+					[key]: value,
+				},
+			},
+		});
+	const blockStyleVars = {
+		...(currentStyleSettings.titleColor ? { '--sweem-title-color': currentStyleSettings.titleColor } : {}),
+		...(currentStyleSettings.subtitleColor ? { '--sweem-subtitle-color': currentStyleSettings.subtitleColor } : {}),
+		...(currentStyleSettings.cardBgColor ? { '--sweem-card-bg': currentStyleSettings.cardBgColor } : {}),
+		...(currentStyleSettings.contentBgColor ? { '--sweem-content-bg': currentStyleSettings.contentBgColor } : {}),
+		...(currentStyleSettings.socialBgColor ? { '--sweem-social-bg': currentStyleSettings.socialBgColor } : {}),
+		...(currentStyleSettings.socialIconColor ? { '--sweem-social-icon-color': currentStyleSettings.socialIconColor } : {}),
+		...(currentStyleSettings.imageRadius ? { '--sweem-image-radius': currentStyleSettings.imageRadius } : {}),
+	};
 	const onSelectImage = (media) =>
 		setAttributes({
 			imgUrl: media?.url || '',
@@ -237,9 +258,48 @@ export default function Edit({ attributes, setAttributes }) {
 						onChange={ (value) => setAttributes({ instagramUrl: value }) }
 					/>
 				</PanelBody>
+				<PanelBody title={ __('Style Controls (Current Skin)', 'sweem-block') } initialOpen={ false }>
+					<TextControl
+						label={ __('Title Color', 'sweem-block') }
+						value={ currentStyleSettings.titleColor || '' }
+						onChange={ (value) => updateStyleSetting('titleColor', value) }
+						help={ __('Example: #ffffff or var(--headings-color)', 'sweem-block') }
+					/>
+					<TextControl
+						label={ __('Subtitle Color', 'sweem-block') }
+						value={ currentStyleSettings.subtitleColor || '' }
+						onChange={ (value) => updateStyleSetting('subtitleColor', value) }
+					/>
+					<TextControl
+						label={ __('Card Background', 'sweem-block') }
+						value={ currentStyleSettings.cardBgColor || '' }
+						onChange={ (value) => updateStyleSetting('cardBgColor', value) }
+					/>
+					<TextControl
+						label={ __('Content Background', 'sweem-block') }
+						value={ currentStyleSettings.contentBgColor || '' }
+						onChange={ (value) => updateStyleSetting('contentBgColor', value) }
+					/>
+					<TextControl
+						label={ __('Social Background', 'sweem-block') }
+						value={ currentStyleSettings.socialBgColor || '' }
+						onChange={ (value) => updateStyleSetting('socialBgColor', value) }
+					/>
+					<TextControl
+						label={ __('Social Icon Color', 'sweem-block') }
+						value={ currentStyleSettings.socialIconColor || '' }
+						onChange={ (value) => updateStyleSetting('socialIconColor', value) }
+					/>
+					<TextControl
+						label={ __('Image Radius', 'sweem-block') }
+						value={ currentStyleSettings.imageRadius || '' }
+						onChange={ (value) => updateStyleSetting('imageRadius', value) }
+						help={ __('Example: 20px', 'sweem-block') }
+					/>
+				</PanelBody>
 			</InspectorControls>
 
-			<div { ...useBlockProps({ className: skinClass }) }>
+			<div { ...useBlockProps({ className: skinClass, style: blockStyleVars }) }>
 				{ renderSkinLayout() }
 			</div>
 		</>

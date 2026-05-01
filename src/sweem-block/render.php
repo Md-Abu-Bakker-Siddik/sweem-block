@@ -71,15 +71,65 @@ if ( ! function_exists( 'sweem_block_render_social_links' ) ) {
 	}
 }
 
+if ( ! function_exists( 'sweem_block_sanitize_css_value' ) ) {
+	function sweem_block_sanitize_css_value( $value ) {
+		$value = trim( (string) $value );
+		if ( '' === $value ) {
+			return '';
+		}
+		if ( preg_match( '/^var\(--[a-zA-Z0-9_-]+\)$/', $value ) ) {
+			return $value;
+		}
+		if ( preg_match( '/^#[0-9a-fA-F]{3,8}$/', $value ) ) {
+			return $value;
+		}
+		if ( preg_match( '/^rgba?\([^)]+\)$/', $value ) || preg_match( '/^hsla?\([^)]+\)$/', $value ) ) {
+			return $value;
+		}
+		if ( preg_match( '/^\d+(\.\d+)?(px|rem|em|%)$/', $value ) ) {
+			return $value;
+		}
+		if ( in_array( strtolower( $value ), array( 'transparent', 'inherit', 'currentcolor' ), true ) ) {
+			return $value;
+		}
+		return '';
+	}
+}
+
 $social_items = array(
 	array( 'url' => sweem_block_normalize_url( isset( $attributes['facebookUrl'] ) ? $attributes['facebookUrl'] : '' ), 'icon' => 'facebook' ),
 	array( 'url' => sweem_block_normalize_url( isset( $attributes['twitterUrl'] ) ? $attributes['twitterUrl'] : '' ), 'icon' => 'twitter' ),
 	array( 'url' => sweem_block_normalize_url( isset( $attributes['linkedinUrl'] ) ? $attributes['linkedinUrl'] : '' ), 'icon' => 'linkedin' ),
 	array( 'url' => sweem_block_normalize_url( isset( $attributes['instagramUrl'] ) ? $attributes['instagramUrl'] : '' ), 'icon' => 'instagram' ),
 );
+
+$style_settings = isset( $attributes['styleSettings'] ) && is_array( $attributes['styleSettings'] ) ? $attributes['styleSettings'] : array();
+$current_style_settings = isset( $style_settings[ $skin_style ] ) && is_array( $style_settings[ $skin_style ] ) ? $style_settings[ $skin_style ] : array();
+$wrapper_style_items = array();
+$style_map = array(
+	'titleColor'      => '--sweem-title-color',
+	'subtitleColor'   => '--sweem-subtitle-color',
+	'cardBgColor'     => '--sweem-card-bg',
+	'contentBgColor'  => '--sweem-content-bg',
+	'socialBgColor'   => '--sweem-social-bg',
+	'socialIconColor' => '--sweem-social-icon-color',
+	'imageRadius'     => '--sweem-image-radius',
+);
+
+foreach ( $style_map as $field => $css_var ) {
+	if ( empty( $current_style_settings[ $field ] ) ) {
+		continue;
+	}
+	$sanitized_value = sweem_block_sanitize_css_value( $current_style_settings[ $field ] );
+	if ( '' !== $sanitized_value ) {
+		$wrapper_style_items[] = $css_var . ':' . $sanitized_value;
+	}
+}
+
+$wrapper_style = implode( ';', $wrapper_style_items );
 ?>
 
-<div <?php echo get_block_wrapper_attributes( array( 'class' => 'sweem-team-block ' . $theme_class . ' sweem-team-item' ) ); ?>>
+<div <?php echo get_block_wrapper_attributes( array( 'class' => 'sweem-team-block ' . $theme_class . ' sweem-team-item', 'style' => $wrapper_style ) ); ?>>
 	<?php if ( 'style1' === $skin_style ) : ?>
 		<div class="sweem-inner-box">
 			<?php if ( ! empty( $img_url ) ) : ?><div class="sweem-image"><img src="<?php echo esc_url( $img_url ); ?>" alt="<?php echo esc_attr( $img_alt ); ?>"></div><?php endif; ?>

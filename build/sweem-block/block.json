@@ -49,6 +49,10 @@
       "type": "string",
       "default": "style1"
     },
+    "styleSettings": {
+      "type": "object",
+      "default": {}
+    },
     "titleColor": {
       "type": "string",
       "default": ""
