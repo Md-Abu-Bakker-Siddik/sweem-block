@@ -1,0 +1,72 @@
+@use "sass:color";
+
+$theme-color1: #102930;
+$theme-color2: #141125;
+$theme-color3: #c6d936;
+$theme-color4: #c6d936;
+
+@function hexToRGB($hex) {
+	@return color.channel($hex, "red", $space: rgb), color.channel($hex, "green", $space: rgb), color.channel($hex, "blue", $space: rgb);
+}
+
+$theme-color1-text-color: #fff;
+$theme-color2-text-color: #fff;
+$theme-color3-text-color: #051b05;
+$theme-color4-text-color: #fff;
+
+$theme-color1-lighter: color.adjust($theme-color1, $lightness: 11%);
+$theme-color1-darker: color.adjust($theme-color1, $lightness: -11%);
+$theme-color2-lighter: color.adjust($theme-color2, $lightness: 11%);
+$theme-color2-darker: color.adjust($theme-color2, $lightness: -11%);
+$theme-color3-lighter: color.adjust($theme-color3, $lightness: 11%);
+$theme-color3-darker: color.adjust($theme-color3, $lightness: -11%);
+$theme-color4-lighter: color.adjust($theme-color4, $lightness: 11%);
+$theme-color4-darker: color.adjust($theme-color4, $lightness: -11%);
+
+:root {
+	--headings-color: #0b162d;
+	--text-color: #777777;
+
+	--theme-color1: #{$theme-color1};
+	--theme-color1-rgb: #{hexToRGB($theme-color1)};
+	--theme-color1-lighter: #{$theme-color1-lighter};
+	--theme-color1-darker: #{$theme-color1-darker};
+
+	--theme-color2: #{$theme-color2};
+	--theme-color2-rgb: #{hexToRGB($theme-color2)};
+	--theme-color2-lighter: #{$theme-color2-lighter};
+	--theme-color2-darker: #{$theme-color2-darker};
+
+	--theme-color3: #{$theme-color3};
+	--theme-color3-rgb: #{hexToRGB($theme-color3)};
+	--theme-color3-lighter: #{$theme-color3-lighter};
+	--theme-color3-darker: #{$theme-color3-darker};
+
+	--theme-color4: #{$theme-color4};
+	--theme-color4-rgb: #{hexToRGB($theme-color4)};
+	--theme-color4-lighter: #{$theme-color4-lighter};
+	--theme-color4-darker: #{$theme-color4-darker};
+
+	--gradient-1: linear-gradient(to right, rgba(var(--theme-color1-rgb), 1) 0%, rgba(var(--theme-color4-rgb), 1) 100%);
+	--gradient-2: linear-gradient(to left, rgba(var(--theme-color1-rgb), 1) 0%, rgba(var(--theme-color4-rgb), 1) 100%);
+	--gradient-3: linear-gradient(-135deg, rgba(23, 23, 23, 0) 50%, var(--theme-color1) 100%);
+
+	--theme-color1-text-color: #{$theme-color1-text-color};
+	--theme-color2-text-color: #{$theme-color2-text-color};
+	--theme-color3-text-color: #{$theme-color3-text-color};
+	--theme-color4-text-color: #{$theme-color4-text-color};
+
+	--hover-theme-color: #{$theme-color1};
+	--footer-default-theme-color: var(--theme-color1);
+	--footer-default-hover-theme-color: var(--theme-color1);
+	--footer-default-text-color-on-bg-theme-color: var(--theme-color1-text-color);
+
+	--sweem-theme-color1: var(--theme-color1);
+	--sweem-theme-color2: var(--theme-color2);
+	--sweem-theme-color1-text: var(--theme-color1-text-color);
+	--sweem-theme-color2-text: var(--theme-color2-text-color);
+	--sweem-theme-heading-color: var(--headings-color, #0b162d);
+	--sweem-theme-text-color: var(--text-color, #777777);
+	--sweem-theme-card-bg: var(--theme-color-white, #ffffff);
+	--sweem-theme-content-bg: #ffffff;
+}

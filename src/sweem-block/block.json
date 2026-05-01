@@ -1,0 +1,134 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "create-block/sweem-block",
+  "version": "0.1.0",
+  "title": "Sweem Team Block",
+  "category": "widgets",
+  "icon": "groups",
+  "description": "Team member block with 9 separate skin styles.",
+  "example": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "default": ""
+    },
+    "designation": {
+      "type": "string",
+      "default": ""
+    },
+    "imgUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "imgId": {
+      "type": "number",
+      "default": 0
+    },
+    "imgAlt": {
+      "type": "string",
+      "default": ""
+    },
+    "facebookUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "twitterUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "linkedinUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "instagramUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "skinStyle": {
+      "type": "string",
+      "default": "style1"
+    },
+    "titleColor": {
+      "type": "string",
+      "default": ""
+    },
+    "subtitleColor": {
+      "type": "string",
+      "default": ""
+    },
+    "cardBgColor": {
+      "type": "string",
+      "default": ""
+    },
+    "contentBgColor": {
+      "type": "string",
+      "default": ""
+    },
+    "socialBgColor": {
+      "type": "string",
+      "default": ""
+    },
+    "socialIconColor": {
+      "type": "string",
+      "default": ""
+    },
+    "titleFontSize": {
+      "type": "string",
+      "default": ""
+    },
+    "subtitleFontSize": {
+      "type": "string",
+      "default": ""
+    },
+    "titleFontWeight": {
+      "type": "string",
+      "default": ""
+    },
+    "subtitleFontWeight": {
+      "type": "string",
+      "default": ""
+    },
+    "titleLineHeight": {
+      "type": "string",
+      "default": ""
+    },
+    "titleLetterSpacing": {
+      "type": "string",
+      "default": ""
+    },
+    "titleTextTransform": {
+      "type": "string",
+      "default": ""
+    },
+    "subtitleLineHeight": {
+      "type": "string",
+      "default": ""
+    },
+    "subtitleLetterSpacing": {
+      "type": "string",
+      "default": ""
+    },
+    "subtitleTextTransform": {
+      "type": "string",
+      "default": ""
+    },
+    "socialIconSize": {
+      "type": "string",
+      "default": ""
+    },
+    "imageBorderRadius": {
+      "type": "number",
+      "default": 20
+    }
+  },
+  "supports": {
+    "html": false
+  },
+  "textdomain": "sweem-block",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "render": "file:./render.php",
+  "viewScript": "file:./view.js",
+  "style": "file:./style-index.css"
+}
